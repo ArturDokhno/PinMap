@@ -21,6 +21,9 @@ class MapViewController: UIViewController {
         let button = UIButton()
         button.setTitle("ADD ADDRESS", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.layer.cornerRadius = 10
         return button
     }()
     
@@ -28,6 +31,10 @@ class MapViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Route", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.layer.cornerRadius = 10
+        button.isHidden = true
         return button
     }()
     
@@ -35,6 +42,10 @@ class MapViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Reset", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.layer.cornerRadius = 10
+        button.isHidden = true
         return button
     }()
     
@@ -75,20 +86,23 @@ extension MapViewController {
         
         mapView.addSubview(addAddressButton)
         NSLayoutConstraint.activate([
-            addAddressButton.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 70),
-            addAddressButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 20)
+            addAddressButton.topAnchor.constraint(equalTo: mapView.topAnchor, constant: 60),
+            addAddressButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 20),
+            addAddressButton.widthAnchor.constraint(equalToConstant: 150)
         ])
         
         mapView.addSubview(routeButton)
         NSLayoutConstraint.activate([
-            routeButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -70),
-            routeButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 20)
+            routeButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -60),
+            routeButton.leadingAnchor.constraint(equalTo: mapView.leadingAnchor, constant: 20),
+            routeButton.widthAnchor.constraint(equalToConstant: 100)
         ])
         
         mapView.addSubview(resetButton)
         NSLayoutConstraint.activate([
-            resetButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -70),
-            resetButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -20)
+            resetButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -60),
+            resetButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -20),
+            resetButton.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
 }
