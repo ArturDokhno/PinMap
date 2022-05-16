@@ -20,7 +20,20 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setConstraints()
     }
     
 }
 
+extension MapViewController {
+    
+    func setConstraints() {
+        view.addSubview(mapView)
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
+        ])
+    }
+}
