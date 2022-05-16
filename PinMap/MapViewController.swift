@@ -60,7 +60,9 @@ class MapViewController: UIViewController {
     }
     
     @objc func addAddressButtonTapped() {
-        print("Tap add")
+        alertAddAddress(title: "Добавить", placeholder: "Введите адрес") { text in
+            print(text)
+        }
     }
     
     @objc func routeButtonTapped() {

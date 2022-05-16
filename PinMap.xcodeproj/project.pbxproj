@@ -12,6 +12,7 @@
 		75A6494E2832909500D14305 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A6494D2832909500D14305 /* MapViewController.swift */; };
 		75A649532832909600D14305 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75A649522832909600D14305 /* Assets.xcassets */; };
 		75A649562832909600D14305 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75A649542832909600D14305 /* LaunchScreen.storyboard */; };
+		75A6495E28329C8100D14305 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A6495D28329C8100D14305 /* Alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		75A649522832909600D14305 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75A649552832909600D14305 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		75A649572832909600D14305 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75A6495D28329C8100D14305 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				75A649492832909500D14305 /* AppDelegate.swift */,
 				75A6494B2832909500D14305 /* SceneDelegate.swift */,
 				75A6494D2832909500D14305 /* MapViewController.swift */,
+				75A6495D28329C8100D14305 /* Alert.swift */,
 				75A649522832909600D14305 /* Assets.xcassets */,
 				75A649542832909600D14305 /* LaunchScreen.storyboard */,
 				75A649572832909600D14305 /* Info.plist */,
@@ -136,6 +139,7 @@
 			files = (
 				75A6494E2832909500D14305 /* MapViewController.swift in Sources */,
 				75A6494A2832909500D14305 /* AppDelegate.swift in Sources */,
+				75A6495E28329C8100D14305 /* Alert.swift in Sources */,
 				75A6494C2832909500D14305 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
