@@ -49,19 +49,21 @@ class MapViewController: UIViewController {
         return button
     }()
     
+    var annotationArray = [MKPointAnnotation]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setConstraints()
         
         addAddressButton.addTarget(self, action: #selector(addAddressButtonTapped), for: .touchUpInside)
-        routeButton.addTarget(self, action: #selector(addAddressButtonTapped), for: .touchUpInside)
+        routeButton.addTarget(self, action: #selector(routeButtonTapped), for: .touchUpInside)
         resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
     }
     
     @objc func addAddressButtonTapped() {
-        alertAddAddress(title: "Добавить", placeholder: "Введите адрес") { text in
-            print(text)
+        alertAddAddress(title: "Добавить", placeholder: "Введите адрес") { [self] text in
+            setupPlaceMark(addressPlace: text)
         }
     }
     
@@ -71,6 +73,35 @@ class MapViewController: UIViewController {
     
     @objc func resetButtonTapped() {
         print("Tap reset")
+    }
+    
+    func setupPlaceMark(addressPlace: String) {
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString(addressPlace) { [self] (placeMarks, error) in
+            
+            if let error = error {
+                print(error)
+                alertError(title: "Ошибка", message: "Сервер недоступен. Попробуйте добавить адрес еще раз")
+            }
+            
+            guard let placeMarks = placeMarks else { return }
+            let placeMark = placeMarks.first
+            
+            let annotation = MKPointAnnotation()
+            annotation.title = addressPlace
+            
+            guard let placeMarkLocation = placeMark?.location else { return }
+            annotation.coordinate = placeMarkLocation.coordinate
+            
+            annotationArray.append(annotation)
+            
+            if annotationArray.count > 2 {
+                routeButton.isHidden = false
+                resetButton.isHidden = false
+            }
+            
+            mapView.showAnnotations(annotationArray, animated: true)
+        }
     }
     
 }
