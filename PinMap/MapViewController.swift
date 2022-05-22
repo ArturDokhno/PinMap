@@ -70,11 +70,19 @@ class MapViewController: UIViewController {
     }
     
     @objc func routeButtonTapped() {
+        for index in 0...annotationArray.count - 2 {
+            createDirectionRequest(startCoordinate: annotationArray[index].coordinate, destinationCoordinate: annotationArray[index + 1].coordinate)
+        }
         
+        mapView.showAnnotations(annotationArray, animated: true)
     }
     
     @objc func resetButtonTapped() {
-        print("Tap reset")
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
+        annotationArray.removeAll()
+        routeButton.isHidden = true
+        resetButton.isHidden = true 
     }
     
     func setupPlaceMark(addressPlace: String) {
@@ -136,10 +144,8 @@ class MapViewController: UIViewController {
             }
             
             self.mapView.addOverlay(minRoute.polyline)
-            
         }
     }
-    
 }
 
 extension MapViewController: MKMapViewDelegate {
