@@ -59,16 +59,18 @@ class MapViewController: UIViewController {
         addAddressButton.addTarget(self, action: #selector(addAddressButtonTapped), for: .touchUpInside)
         routeButton.addTarget(self, action: #selector(routeButtonTapped), for: .touchUpInside)
         resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
+        
+        mapView.delegate = self
     }
     
     @objc func addAddressButtonTapped() {
-        alertAddAddress(title: "Добавить", placeholder: "Введите адрес") { [self] text in
-            setupPlaceMark(addressPlace: text)
+        alertAddAddress(title: "Добавить", placeholder: "Введите адрес") { [weak self] text in
+            self?.setupPlaceMark(addressPlace: text)
         }
     }
     
     @objc func routeButtonTapped() {
-        print("Tap route")
+        
     }
     
     @objc func resetButtonTapped() {
@@ -77,11 +79,12 @@ class MapViewController: UIViewController {
     
     func setupPlaceMark(addressPlace: String) {
         let geoCoder = CLGeocoder()
-        geoCoder.geocodeAddressString(addressPlace) { [self] (placeMarks, error) in
+        geoCoder.geocodeAddressString(addressPlace) { [weak self] (placeMarks, error) in
             
             if let error = error {
                 print(error)
-                alertError(title: "Ошибка", message: "Сервер недоступен. Попробуйте добавить адрес еще раз")
+                self?.alertError(title: "Ошибка", message: "Сервер недоступен. Попробуйте добавить адрес еще раз")
+                return
             }
             
             guard let placeMarks = placeMarks else { return }
@@ -93,17 +96,59 @@ class MapViewController: UIViewController {
             guard let placeMarkLocation = placeMark?.location else { return }
             annotation.coordinate = placeMarkLocation.coordinate
             
-            annotationArray.append(annotation)
+            self?.annotationArray.append(annotation)
             
-            if annotationArray.count > 2 {
-                routeButton.isHidden = false
-                resetButton.isHidden = false
+            if (self?.annotationArray.count)! > 2 {
+                self?.routeButton.isHidden = false
+                self?.resetButton.isHidden = false
             }
             
-            mapView.showAnnotations(annotationArray, animated: true)
+            self?.mapView.showAnnotations(self!.annotationArray, animated: true)
         }
     }
     
+    private func createDirectionRequest(startCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D) {
+        let startLocation = MKPlacemark(coordinate: startCoordinate)
+        let destinationLocation = MKPlacemark(coordinate: destinationCoordinate)
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: startLocation)
+        request.destination = MKMapItem(placemark: destinationLocation)
+        request.transportType = .walking
+        request.requestsAlternateRoutes = true
+        
+        let direction = MKDirections(request: request)
+        direction.calculate { [self] (response, error) in
+            
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let response = response else {
+                alertError(title: "Ошибка", message: "Маршут недоступен.")
+                return
+            }
+            
+            var minRoute = response.routes[0]
+            for route in response.routes {
+                minRoute = (route.distance < minRoute.distance) ? route : minRoute
+            }
+            
+            self.mapView.addOverlay(minRoute.polyline)
+            
+        }
+    }
+    
+}
+
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let render = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        render.strokeColor = .red
+        return render
+    }
 }
 
 extension MapViewController {
